@@ -12,12 +12,27 @@ function App() {
       alert("다시 입력하세요.");
       return;
     }
-    setTodoList([...todoList, input]);
+
+    const newTodo = {
+      text: input,
+      checked: false,
+      id: Date.now(),
+    };
+
+    setTodoList([...todoList, newTodo]);
     setinput("");
   };
 
   const onDelete = id => {
     setTodoList(todoList.filter(todoItem => todoItem.id !== id));
+  };
+
+  const onToggle = id => {
+    setTodoList(
+      todoList.map(item =>
+        item.id === id ? { ...item, checked: !item.checked } : item
+      )
+    );
   };
 
   return (
@@ -31,7 +46,7 @@ function App() {
         />
         <input type="submit" value="추가" />
       </form>
-      <AddList todoList={todoList} onDelete={onDelete}/>
+      <AddList todoList={todoList} onDelete={onDelete} onToggle={onToggle} />
     </main>
   );
 }
